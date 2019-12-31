@@ -1,21 +1,13 @@
 package main
 
-import (
-	"fmt"
-	"log"
-	"net/http"
-)
-
-func myHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello there!\n")
-}
-func sayHello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello world\n")
-}
+import "github.com/gin-gonic/gin"
 
 func main() {
-	http.HandleFunc("/", myHandler) //	设置访问路由
-	http.HandleFunc("/hello", sayHello)
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+	r.Run(":8080")
 }
